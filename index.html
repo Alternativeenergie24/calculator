@@ -1,0 +1,35 @@
+<div style="padding: 20px; background-color: #f0f4f8; border-radius: 10px; max-width: 400px; margin: 0 auto; font-family: Arial, sans-serif;">
+  <h3 style="color: #008000; text-align: center;">kWh Calculator für Ihren Energiebedarf</h3>
+  <label for="annualConsumption" style="display: block; margin: 10px 0; color: #333;">Ihr Jahresverbrauch (kWh):</label>
+  <input type="number" id="annualConsumption" placeholder="z. B. 4000" style="margin: 10px 0; padding: 8px; width: 100%; border: 1px solid #008000; border-radius: 5px; box-sizing: border-box;">
+  <button onclick="calculateEnergyNeeds()" style="background-color: #008000; color: white; padding: 10px; border: none; border-radius: 5px; width: 100%; cursor: pointer;">Berechnen</button>
+  <p id="result" style="margin-top: 15px; font-weight: bold; color: #333;"></p>
+</div>
+
+<script>
+function calculateEnergyNeeds() {
+  // Eingabe holen
+  const annualConsumption = parseFloat(document.getElementById('annualConsumption').value);
+  
+  if (isNaN(annualConsumption) || annualConsumption <= 0) {
+    document.getElementById('result').innerHTML = "Bitte geben Sie einen gültigen Jahresverbrauch ein.";
+    return;
+  }
+
+  // Tagesverbrauch berechnen
+  const dailyConsumption = annualConsumption / 365;
+
+  // Peak-Bedarf schätzen (vereinfacht: 0.5 kW pro kWh Tagesverbrauch, anpassbar für Haushalte)
+  const peakDemand = Math.max(5, dailyConsumption * 0.5); // Mindestens 5 kW als realistischer Peak
+
+  // Speicherkapazität vorschlagen (Tagesverbrauch × 1.5 für Autarkie, mindestens 10 kWh)
+  const storageCapacity = Math.max(10, dailyConsumption * 1.5);
+
+  // Ergebnis anzeigen
+  document.getElementById('result').innerHTML = 
+    `Ihr durchschnittlicher Tagesverbrauch: ${dailyConsumption.toFixed(2)} kWh<br>` +
+    `Geschätzter Peak-Bedarf: ${peakDemand.toFixed(2)} kW<br>` +
+    `Empfohlene Speicherkapazität: ${storageCapacity.toFixed(2)} kWh<br>` +
+    `<small style="color: #666;">Hinweis: Die Werte sind Schätzungen. Für eine genaue Planung kontaktieren Sie uns!</small>`;
+}
+</script>
